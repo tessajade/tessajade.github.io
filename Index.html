@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cookie Feedback Page</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
-        /* CSS to style the page */
         body {
             background-color: white; 
             display: flex;
@@ -18,7 +20,7 @@
 
         .container {
             padding: 30px 30px 15px 30px; 
-            background-color: #f5e942; /* Bright Yellow */
+            background-color: #fff280;
             border-radius: 10px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
             text-align: center;
@@ -28,33 +30,39 @@
         .logo {
             width: 150px; 
             height: auto;
-            margin-bottom: 15px; 
+            margin-bottom: 0px; 
         }
 
         .promo-text {
             color: #333; 
             font-size: 1.2em;
             font-weight: bold;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             line-height: 1.4;
         }
         
-        .rating-scale {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            font-size: 30px;
-            width: 250px; 
-            margin-left: auto;
-            margin-right: auto;
-        }
+		.rating-scale {
+			display: flex;
+			justify-content: space-between;
+			margin-bottom: 20px;
+			font-size: 30px; 
+			width: 250px;
+			height: 40px;
+			margin-left: auto;
+			margin-right: auto;
+		}
 
-        .rating-face {
-            cursor: pointer;
-            transition: transform 0.2s, border 0.2s; 
-            padding: 5px; 
-            border-radius: 50%; 
-        }
+		.rating-face {
+			cursor: pointer;
+			transition: transform 0.2s, border 0.2s;
+			width: 40px;
+			height: 40px;
+			padding: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			border-radius: 50%;
+		}
 
         .rating-face:hover {
             transform: scale(1.2); 
@@ -90,9 +98,37 @@
             color: #666; 
         }
 
-        /* --- STYLES FOR THE MODAL POP-UP --- */
+        .social-section {
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #4a4944; 
+			color: #4a4944;
+        }
+        
+        .social-icon {
+            font-size: 24px;
+            margin: 0 10px;
+            color: #555; 
+            transition: color 0.2s;
+			text-decoration:none
+        }
+        
+        .social-icon:hover {
+            color: #000; /* Darken on hover */
+        }
+        
+        .social-icon.instagram:hover {
+            color: #E4405F;
+        }
+        .social-icon.facebook:hover {
+            color: #3B5998;
+        }
+        .social-icon.x:hover {
+            color: #0000FF; 
+        }
+		
         .modal {
-            display: none; /* Initial hide */
+            display: none; 
             position: fixed; 
             z-index: 10; 
             left: 0;
@@ -101,7 +137,6 @@
             height: 100%; 
             overflow: auto; 
             background-color: rgba(0,0,0,0.9); 
-            /* Use flex to easily center content when shown */
             justify-content: center;
             align-items: center;
         }
@@ -139,7 +174,6 @@
         // Use an event listener to ensure the HTML elements are loaded before running the script
         document.addEventListener('DOMContentLoaded', () => {
             let selectedRatingValue = null;
-            // Now we know the element exists when we try to select it
             const mainContainer = document.querySelector('.container'); 
             const modal = document.getElementById('couponModal');
             const bodyElement = document.body;
@@ -164,7 +198,7 @@
                     // Display the modal using 'flex'
                     modal.style.display = 'flex';
                     
-                    // Important: Hide body scrollbar to prevent scrolling behind the modal
+                    // Hide body scrollbar to prevent scrolling behind the modal
                     bodyElement.style.overflow = 'hidden';
 
                 } else {
@@ -203,18 +237,29 @@
         </div>
         
         <button class="submit-button" onclick="showCoupon()">SUBMIT</button>
-
-        <p class="powered-by">
-            Demo for TrueOrder&trade; Kitchen Display System from Epson America
+        
+        <div class="social-section">
+            <p><strong>Follow Us!</strong></p>
+            <a href="https://www.instagram.com/" target="_blank" class="social-icon instagram" aria-label="Follow us on Instagram">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="https://www.facebook.com/" target="_blank" class="social-icon facebook" aria-label="Follow us on Facebook">
+                <i class="fa-brands fa-facebook-f"></i>
+            </a>
+            <a href="https://x.com/" target="_blank" class="social-icon x" aria-label="Follow us on X">
+                <i class="fa-brands fa-square-x-twitter"></i> 
+            </a>
+        </div>
+		
+		<p class="powered-by">
+            This feedback form is for demonstration purposes only.
         </p>
-    </div>
+		
+        </div>
 
     <div id="couponModal" class="modal" onclick="hideCoupon()">
         <span class="close-btn" onclick="hideCoupon()">&times;</span>
-        
         <img class="modal-content" src="coupon_image.png" alt="Free Cookie Coupon Image" onclick="event.stopPropagation();">
-        
-        <p style="color: white; margin-top: 10px;">Click anywhere to close.</p>
     </div>
 
 </body>
