@@ -1,1 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Feedback Page</title>
+    <style>
+        /* CSS to style the page */
+        body {
+            background-color: white; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
 
+        .container {
+            padding: 30px 30px 15px 30px; 
+            background-color: #f5e942; /* Bright Yellow */
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+            text-align: center;
+            max-width: 400px;
+        }
+        
+        .logo {
+            width: 150px; 
+            height: auto;
+            margin-bottom: 15px; 
+        }
+
+        .promo-text {
+            color: #333; 
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+        
+        .rating-scale {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 30px;
+            width: 250px; 
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .rating-face {
+            cursor: pointer;
+            transition: transform 0.2s, border 0.2s; 
+            padding: 5px; 
+            border-radius: 50%; 
+        }
+
+        .rating-face:hover {
+            transform: scale(1.2); 
+        }
+
+        .selected-face {
+            border: 3px solid #00AA00; 
+            transform: scale(1.2); 
+        }
+
+        .submit-button {
+            background-color: #4CAF50; 
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 15px 2px 0 2px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-button:hover {
+            background-color: #45a049; 
+        }
+
+        .powered-by {
+            margin-top: 15px; 
+            font-size: 0.75em; 
+            color: #666; 
+        }
+
+        /* --- STYLES FOR THE MODAL POP-UP --- */
+        .modal {
+            display: none; /* Initial hide */
+            position: fixed; 
+            z-index: 10; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.9); 
+            /* Use flex to easily center content when shown */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    
+    <script>
+        // Use an event listener to ensure the HTML elements are loaded before running the script
+        document.addEventListener('DOMContentLoaded', () => {
+            let selectedRatingValue = null;
+            // Now we know the element exists when we try to select it
+            const mainContainer = document.querySelector('.container'); 
+            const modal = document.getElementById('couponModal');
+            const bodyElement = document.body;
+
+            // Define functions to be attached to window/element click handlers later
+            window.selectRating = function(ratingElement) {
+                const allFaces = document.querySelectorAll('.rating-face');
+                allFaces.forEach(face => {
+                    face.classList.remove('selected-face');
+                });
+                ratingElement.classList.add('selected-face');
+                selectedRatingValue = ratingElement.getAttribute('data-value');
+                console.log('Selected Rating:', selectedRatingValue); 
+            };
+
+            window.showCoupon = function() {
+                if (selectedRatingValue) {
+                    
+                    // Hide the main form container
+                    mainContainer.style.display = 'none'; 
+                    
+                    // Display the modal using 'flex'
+                    modal.style.display = 'flex';
+                    
+                    // Important: Hide body scrollbar to prevent scrolling behind the modal
+                    bodyElement.style.overflow = 'hidden';
+
+                } else {
+                    alert('Please select a rating before submitting!');
+                }
+            };
+
+            window.hideCoupon = function() {
+                
+                // Hide the modal
+                modal.style.display = 'none';
+
+                // Show the main form container again, restoring its original display
+                mainContainer.style.display = 'block'; 
+
+                // Restore body scrollbar
+                bodyElement.style.overflow = '';
+            };
+        });
+    </script>
+    
+    <div class="container">
+        
+        <img src="logo.png" alt="Company Logo" class="logo">
+
+        <p class="promo-text">
+            Share your feedback to get a FREE COOKIE on your next visit
+        </p>
+
+        <div class="rating-scale">
+            <span class="rating-face face-1" data-value="1" onclick="selectRating(this);" title="Very Sad">&#128546;</span>
+            <span class="rating-face face-2" data-value="2" onclick="selectRating(this);" title="Sad">&#128577;</span>
+            <span class="rating-face face-3" data-value="3" onclick="selectRating(this);" title="Neutral">&#128528;</span>
+            <span class="rating-face face-4" data-value="4" onclick="selectRating(this);" title="Happy">&#128578;</span>
+            <span class="rating-face face-5" data-value="5" onclick="selectRating(this);" title="Very Happy">&#128512;</span>
+        </div>
+        
+        <button class="submit-button" onclick="showCoupon()">SUBMIT</button>
+
+        <p class="powered-by">
+            Demo for TrueOrder&trade; Kitchen Display System from Epson America
+        </p>
+    </div>
+
+    <div id="couponModal" class="modal" onclick="hideCoupon()">
+        <span class="close-btn" onclick="hideCoupon()">&times;</span>
+        
+        <img class="modal-content" src="coupon_image.png" alt="Free Cookie Coupon Image" onclick="event.stopPropagation();">
+        
+        <p style="color: white; margin-top: 10px;">Click anywhere to close.</p>
+    </div>
+
+</body>
+</html>
